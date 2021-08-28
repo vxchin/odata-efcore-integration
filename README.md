@@ -34,10 +34,21 @@ public void ConfigureServices(IServiceCollection services)
         optionsBuilder.UseSqlServer(Configuration.GetConnectionString("ApplicationDb"));
         
     services.AddDbContext<ApplicationDbContext>(UseSqlServer);
+
+    // ...
+}    
+```
+
+* Step 3: Use `EdmModel.CreateConventionFactory()` static method to create a `IEdmModel` factory, and then call `ConfigureWithDbContext` or `ConfigureWithEntityFrameeworkModel`.
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    // ...
     
     services.AddController().AddOData(options => options
         .AddRouteComponents("odata", CreateEdmModel(UseSqlServer)));
-}    
+}
 
 private static IEdmModel CreateEdmModel(Action<DbContextOptionsBuilder> optionsAction)
 {
