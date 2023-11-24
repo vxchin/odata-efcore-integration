@@ -19,7 +19,8 @@ namespace Vxchin.OData.EntityFrameworkCore
             this IConventionEdmModelFactory factory, Action<DbContextOptionsBuilder<TContext>> optionsAction)
             where TContext : DbContext
         {
-            var model = CreateDbContext(optionsAction).Model;
+            using var context = CreateDbContext(optionsAction);
+            var model = context.Model;
             return factory.ConfigureWithEntityFrameworkModel(model);
         }
 
